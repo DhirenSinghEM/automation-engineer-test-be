@@ -4,3 +4,6 @@
 .vercel
 coverage/
 .nyc_output/
+.postman/
+postman/reports/*.html
+postman/reports/*.json
