@@ -4,6 +4,8 @@
 .vercel
 coverage/
 .nyc_output/
+
+# API Postman Automation
 .postman/
 postman/reports/*.html
 postman/reports/*.json

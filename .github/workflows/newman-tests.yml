@@ -24,7 +24,7 @@ jobs:
   test:
     name: Run Newman API Tests
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 5
 
     env:
       NEWMAN_BASE_URL: ${{ secrets.NEWMAN_BASE_URL || 'https://orta-full-stack-dev-test-be-63gp.onrender.com/api' }}
@@ -52,7 +52,7 @@ jobs:
         run: |
           echo "Base URL: ${{ env.NEWMAN_BASE_URL }}"
           echo "Collection exists: $(test -f postman/collections/orta-api-collection.json && echo 'yes' || echo 'no')"
-          echo "Environment exists: $(test -f postman/environments/dev.postman_environment.json && echo 'yes' || echo 'no')"
+          echo "Environment exists: $(test -f postman/environments/dev.environment.json && echo 'yes' || echo 'no')"
 
       - name: Run API tests
         id: api-test-run
