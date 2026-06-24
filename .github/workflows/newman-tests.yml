@@ -59,8 +59,6 @@ jobs:
         run: npm run test:api
         continue-on-error: true
 
-
-
       - name: Upload HTML report
         if: always()
         uses: actions/upload-artifact@v4
@@ -112,6 +110,10 @@ jobs:
               repo: context.repo.repo,
               body: comment
             });
+
+      - name: Check test results
+        if: steps.api-test-run.outcome == 'failure'
+        run: exit 1      
 
       - name: Generate summary
         if: always()
