@@ -111,10 +111,6 @@ jobs:
               body: comment
             });
 
-      - name: Check test results
-        if: steps.api-test-run.outcome == 'failure'
-        run: exit 1      
-
       - name: Generate summary
         if: always()
         run: |
@@ -127,3 +123,28 @@ jobs:
           echo "**Artifacts**:" >> $GITHUB_STEP_SUMMARY
           echo "- HTML Report: newman-html-report-${{ github.run_number }}" >> $GITHUB_STEP_SUMMARY
           echo "- JSON Report: newman-json-report-${{ github.run_number }}" >> $GITHUB_STEP_SUMMARY
+
+      - name: Check test results
+        if: steps.api-test-run.outcome == 'failure'
+        run: exit 1 
+
+  publish-report:
+    name: Publish Newman Report to GitHub Pages
+    needs: test
+    runs-on: ubuntu-latest
+    if: always() && github.ref == 'refs/heads/main'
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download HTML report artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: newman-html-report-${{ github.run_number }}
+          path: newman-report
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./newman-report
