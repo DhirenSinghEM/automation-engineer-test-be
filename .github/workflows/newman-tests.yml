@@ -143,6 +143,9 @@ jobs:
           name: newman-html-report-${{ github.run_number }}
           path: newman-report
 
+      - name: Rename report to index.html
+        run: mv newman-report/report.html newman-report/index.html
+          
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
